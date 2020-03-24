@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello {{ prenom }} {% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Bonjour {{ prenom }},</h1>
+    <p>Ton age est de {{ age }} ans</p>
+    {% if age <= 18 %}
+        <p>Tu es donc mineur!</p>
+    {% else %}
+        <p>Tu es donc majeur!</p>
+    {% endif %}
+</div>
+{% endblock %}
