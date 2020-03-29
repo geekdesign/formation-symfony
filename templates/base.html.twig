@@ -5,15 +5,20 @@
         <title>SymBNB - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/app.css">
+        <link href="/css/fontawesome.css" rel="stylesheet">
+        <link href="/css/brands.css" rel="stylesheet">
+        <link href="/css/solid.css" rel="stylesheet">
+        <link href="/css/all.css" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body class="min-vh-100">
       {% include 'partials/header.html.twig' %}
         {% block body %}{% endblock %}
       {% include 'partials/footer.html.twig' %}
         <script src="/js/jquery.min.js"></script>
         <script src="/js/popper.min.js"></script>
         <script src="/js/bootstrap/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/05b0e1a959.js" crossorigin="anonymous"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

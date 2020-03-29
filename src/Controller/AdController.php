@@ -41,7 +41,7 @@ class AdController extends AbstractController
         $ad = new Ad();
         //On crée un formulaire avec la fonction createForm et on lui passe la classe AdType et notre nouvel objet $ad
         $form  = $this->createForm(AdType::class, $ad);
-        //Fonction qui permet de faie le lien entre les paramêtre rentrés en requête et l'objet Ad
+        //Fonction qui permet de faie le lien entre les paramètre rentrés en requête et l'objet Ad
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -50,6 +50,8 @@ class AdController extends AbstractController
                 $image->setAd($ad);
                 $manager->persist($image);
             }
+
+            $ad->setAuthor($this->getUser());
         
             $manager->persist($ad);
             $manager->flush();
