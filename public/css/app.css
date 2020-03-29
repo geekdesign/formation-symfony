@@ -1,3 +1,8 @@
+a:hover, .btn-link:hover {
+    text-decoration: none;
+}
+
+
 div.container{
     margin-top: 20px;
 }
