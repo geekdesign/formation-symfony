@@ -7,6 +7,7 @@ use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
+use App\Entity\Booking;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -76,7 +77,7 @@ class AppFixtures extends Fixture
         $ad = new Ad();
 
         //On crée un titre d'une longueure de 20mots
-        $title = $faker->sentence();
+        $title  = $faker->sentence();
         //On génère une image aléatoire
         $coveImage = $faker->imageUrl(1000, 350);
         //On crée une intorduction de 2 paragraphe
@@ -97,12 +98,33 @@ class AppFixtures extends Fixture
 
         //On ajoute entre 2 et 5 images par Ad 
         for ($j=1; $j <= mt_rand(2,5); $j++) { 
-            $image = new Image();
+            $image  = new Image();
             $image  ->setUrl($faker->imageUrl())
                     ->setCaption($faker->sentence())
                     ->setAd($ad);
 
             $manager->persist($image);
+        }
+
+        //Gestion des réservation
+        for ($j=1; $j <= mt_rand(0, 10); $j++) { 
+            $booking    = new Booking();
+            $createdAt  = $faker->dateTimeBetween('-6 months');
+            $startDate  = $faker->dateTimeBetween('-3 months');
+            $duration   = mt_rand(3, 10);
+            $endDate    = (clone $startDate)->modify("+$duration days");
+            $amount     = $ad->getPrice() * $duration;
+            $booker     = $users[mt_rand(0, count($users) - 1)];
+
+            $booking    ->setBooker($booker)
+                        ->setAd($ad)
+                        ->setStartDate($startDate)
+                        ->setEndDate($endDate)
+                        ->setCreatedAt($createdAt)
+                        ->setAmount($amount)
+                        ->setComment($faker->paragraph(1));
+
+            $manager->persist($booking);
         }
         
         //On persiste dans la base de donnée l'objet

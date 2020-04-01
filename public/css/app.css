@@ -2,7 +2,6 @@ a:hover, .btn-link:hover {
     text-decoration: none;
 }
 
-
 div.container{
     margin-top: 20px;
 }
@@ -25,11 +24,17 @@ div.merde h1, div.merde p, .carousel-caption {
 }
 
 .avatar-medium {
-    max-width: 64px;
+    max-width: 64px; 
     max-height: 64px;
 }
 
 .avatar-mini {
     max-width: 32px;
     max-height: 32px;
+}
+
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover{
+    background-color: rgb(251, 98, 98)!important;
+    color: floralwhite!important;
+    border-radius: 0%!important;
 }
