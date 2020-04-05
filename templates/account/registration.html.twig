@@ -4,19 +4,36 @@
 
 {% block body %}
 <div class="container">
+    <h1 class="my-5">S'inscrire sur SymBNB</h1>
+    {{form_start(form)}}
     <div class="row">
-        <div class="col-md-2">&nbsp;</div>
-        <div class="col-md-8">
-            <div class="bg-light py-3 px-3">
-                <h1>Formulaire d'inscription de notre site</h1>
-
-                {{form_start(form)}}
-                {{form_widget(form)}}
-                <button type="submit" class="btn btn-success">Confirmez votre inscritpion</button>
-                {{form_end(form)}}
-
+        <div class="col">
+            <div class="alert alert-light p-4">
+                <h3 class="alert-heading">Informations générales</h3>
+                <hr>
+                {{form_row(form.firstName)}}
+                {{form_row(form.lastName)}}
+                {{form_row(form.email)}}
+                {{form_row(form.picture)}}
+            </div>
+        </div>
+        <div class="col">
+            <div class="alert alert-light p-4">
+                <h3 class="alert-heading">Détails</h3>
+                <hr>
+                {{form_row(form.introduction)}}
+                {{form_row(form.description)}}
             </div>
         </div>
     </div>
+    <div class="alert alert-light">
+        <h3 class="alert-heading">Définir un mot de passe</h3>
+        <div class="row">
+            <div class="col">{{form_row(form.hash)}}</div>
+            <div class="col">{{form_row(form.passwordConfirm)}}</div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-check mr-1"></i> Confirmez l'inscription</button>
+    {{form_end(form)}}
 </div>
 {% endblock %}

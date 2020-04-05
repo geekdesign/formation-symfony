@@ -9,22 +9,22 @@
 
 {% block body %}
 <div class="container">
-    <h2>Réserver pour l'annonce {{ad.title}}</h2>
+    <h2><small>Réserver pour l'annonce: </small><strong>{{ad.title}}</strong></h2>
     <p>Vous êtes sur le point de réserver l'annonce de <strong>{{ad.author.fullname}}</strong>, dites nous tout on s'occupe du reste !</p>
 
     {{form_start(form)}}
         <div class="alert alert-light p-5">
             <h4 class="mb-3">Commencez par nous dire quelles sont les dates qui vous intéressent !</h2>
             <div class="row">
-                <div class="col">
+                <div class="col-md">
                     {{form_row(form.startDate)}}
                 </div>
-                <div class="col">
+                <div class="col-md">
                     {{form_row(form.endDate)}}
                 </div>
             </div>
         
-        <h5 class="mb-5">Montant estimez de votre séjour: <span id="amount"></span> CHF pour <span id="days"> 0</span> nuit(s) à {{ad.price | number_format(2, ',', ' ')}} CHF/Nuit</h5>
+        <h5 class="mb-5">Montant estimez de votre séjour: <strong><span id="amount"></span> CHF</strong> pour <span id="days"> 0</span> nuit(s) à {{ad.price | number_format(2, ',', ' ')}} CHF/Nuit</h5>
     
         {{form_row(form.comment)}}
         <button type="submit" class="btn btn-success">Reserver</button>

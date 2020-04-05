@@ -1,0 +1,45 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des annonces
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="my-5">Gestion des commentaires</h1>
+		<table class="table table-responsive table-hover">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Date</th>
+					<th style="width: 13%">Auteur</th>
+					<th>Commentaire</th>
+					<th style="width: 10%">Note</th>
+					<th style="width: 22%">Annonce</th>
+					<th style="width: 10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for comment in comments %}
+					<tr>
+						<td>{{comment.id}}</td>
+						<td>{{comment.createdAt| date("m.d.Y")}}</td>
+						<td style="width: 13%">
+							<img src="{{comment.author.picture}}" alt="Avatar de {{comment.author.fullname}}" class="avatar avatar-micro mr-2">
+							{{comment.author.fullName}}</td>
+						<td>{{comment.content}}</td>
+						<td style="width: 10%">{% include "partials/rating.html.twig" with {'rating': comment.rating} %}</td>
+						<td style="width: 22%">{{comment.ad.title}}</td>
+						<td style="width: 10%">
+							<a href="{{ path('admin_comment_edit', {'id': comment.id}) }}" class="btn btn-info mr-2">
+								<i class="fas fa-pen"></i>
+							</a>
+							<a href="{{ path('admin_comment_delete', {'id': comment.id}) }}" class="btn btn-danger mr-2">
+								<i class="fas fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

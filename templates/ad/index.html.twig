@@ -4,8 +4,8 @@
 
 {% block body %}
 <div class="container">
-    <h1 class="my-3">Voici les annonces de nos hôtes!</h1>
-    <div class="row">
+    <h1 class="my-5">Voici les annonces de nos hôtes!</h1>
+    <div class="row ads-index">
         {% for ad in ads %}
             {% include 'ad/_ad.html.twig' %}
         {% endfor %}

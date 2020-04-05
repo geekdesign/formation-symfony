@@ -3,8 +3,16 @@
     <div class="col-md-4">
         <div class="card bg-light mb-3">
             <div class="card-header text-center">
-                {{ ad.rooms }} Chambres, <strong>{{ ad.price }} CHF / nuit</strong><br>
-                <small>Pas encore noté</small>
+                {{ ad.rooms }} Chambres, <strong>{{ ad.price | number_format(2, ',', ' ') }} CHF / nuit</strong><br>
+                <small>
+                    {% if ad.comments|length > 0 %}
+                    {% set rating = ad.comments|length  %}
+                    {% include "partials/rating.html.twig" with {'rating': ad.avgRatings} %}
+                        ({{ad.comments|length}} avis)
+                    {% else %}
+                        Pas encore noté
+                    {% endif %}
+                </small>
             </div>
             <a href="{{ url }}">
                 <img src="{{ ad.coverImage }}" alt="Image de l'appartement" style="height: 200px; width:100%; display:block;">
@@ -18,10 +26,10 @@
                 <p class="card-texte">
                     {{ ad.introduction }}
                 </p>
-                <a href="{{ url }}" class="btn btn-secondary">En savoir plus</a>
                 {% if app.user and app.user == ad.author %}
-                    <a href="{{path('ads_edit', {'slug': ad.slug})}}" class="btn btn-link float-right ml-3"><i class="fas fa-edit mr-1"></i>Modifier</a>
+                    <a href="{{path('ads_edit', {'slug': ad.slug})}}" class="btn btn-link float-left ml-3"><i class="fas fa-edit mr-1"></i>Modifier</a>
                 {% endif %}
+                <a href="{{ url }}" class="btn btn-secondary float-right">En savoir plus</a>
             </div>
         </div>
     </div>

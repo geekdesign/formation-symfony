@@ -2,15 +2,15 @@
 
 {% block title %}{{ad.title}}{% endblock %}
 
-{% block body %}
-        <div class="merde" style="background-image: url({{ad.coverImage}});">
-            <div class="container">
+{% block body %} 
+        <div class="ad-title" style="background-image: url({{ad.coverImage}});">
+            <div class="container contentHeader ">
                 <h1>{{ad.title}}</h1>
                 <p>{{ad.introduction}}</p>
-                <p class="h2">
-                    <strong>{{ad.rooms}} chambres</strong> pour <strong>{{ad.price}}CHF</strong> par nuit
+                <p class="h3">
+                    <strong>{{ad.rooms}} chambres</strong> pour <strong>{{ad.price | number_format(2, ',', ' ')}} CHF</strong> par nuit
                 </p>
-                <a href="{{path('booking_create', {'slug': ad.slug})}}" class="btn btn-primary">Réserver</a>
+                <a href="{{path('booking_create', {'slug': ad.slug})}}" class="btn btn-success">Réserver</a>
                 {% if app.user and app.user == ad.author %}
                     <a href="{{path('ads_edit', {'slug': ad.slug})}}" class="btn btn-dark ml-3"><i class="fas fa-edit mr-1"></i>Modifier</a>
                     <a href="{{path('ads_delete', {'slug': ad.slug})}}" class="btn btn-danger"><i class="fas fa-trash-alt mr-1" onclick="return confirm(`Etes-vous sur de vouloir supprimer cette annonce ?`)"></i>Supprimer</a>
@@ -21,7 +21,20 @@
         <div class="row">
             <div class="col-md-8 mb-3">
                 {{ad.content | raw}}
-
+                {% if ad.comments|length > 0 %}
+                <div class="alert alert-info">
+                    <h5 class="alert-heading">
+                        <div class="row align-items-center">
+                            <div class="col">Note globale donnée par nos voyageurs
+                            </div>
+                            <div class="col text-center">
+                                {% include "partials/rating.html.twig" with {'rating': ad.avgRatings} %} <br>
+                                <small>(Moyenne sur {{ ad.comments|length}} avis)</small>
+                            </div>
+                        </div>
+                    </h5>
+                </div>
+                {% endif %}
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
                     <div class="carousel-inner">
                         {% for image in ad.images %}
@@ -43,7 +56,23 @@
                       <span class="sr-only">Next</span>
                     </a>
                 </div>
+                <hr>
+                {% if ad.comments|length > 0 %}
+                <h4 class="mb-3">Commentaires de nos voyageurs</h4>
                 
+                {% for comment in ad.comments %}
+                    <div class="bg-light rounded mb-3 py-3 px-3">
+                        <strong>{{comment.author.firstName}}</strong> a dit:
+                        <blockquote>
+                            {{comment.content}}
+                        </blockquote>
+                        <strong>Note:</strong>
+                        {% include "partials/rating.html.twig" with {'rating': comment.rating} %}
+                    </div>
+                    {% endfor %} 
+                {% else %}
+                    <h4>Cette annonce n'a pas encore reçu de commentaires ...</h4>
+                {% endif %}
             </div>
             <div class="col">
                 {% set a = ad.author %}
@@ -52,7 +81,7 @@
                         <a href="{{ path('user_show',{'slug': a.slug}) }}"><img src="{{a.picture}}" class="avatar avatar-medium" alt="Avatar de {{a.fullname}}"></a>
                     </div>
                     <div class="col">
-                        <h4><a href="{{ path('user_show',{'slug': a.slug}) }}">{{a.fullname}}</a></h4>
+                        <h4><a href="{{ path('user_show',{'slug': a.slug}) }}">{{a.fullName}}</a></h4>
                         <span class="badge badge-pill badge-info">{{ a.ads | length}} Annonces</span>
                     </div>
                 </div>

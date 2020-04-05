@@ -38,8 +38,12 @@ class AccountType extends ApplicationType
         )
         ->add('description', 
             TextareaType::class, 
-            $this->getConfiguration("Description", "Présentez-vous...")
-        );
+            $this->getConfiguration("Description", "Présentez-vous...", [
+                'attr' => [
+                    'rows' => 9
+                    ]
+                ])
+                );
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -44,7 +44,11 @@ class AdType  extends ApplicationType
             ->add(
                 'content', 
                 TextareaType::class,  
-                $this->getConfiguration("Contenu", "Taper le contenu de l'annonce")
+                $this->getConfiguration("Contenu", "Taper le contenu de l'annonce", [
+                    'attr' => [
+                        'rows' => 8
+                    ]
+                ])
             )
             ->add(
                 'rooms', 

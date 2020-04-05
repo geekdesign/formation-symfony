@@ -92,10 +92,16 @@ class User implements UserInterface
     private $bookings;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
      * Permet de retourner le nom et le prénom
      * @return string 
      */
-    public function getFullName(){
+    public function getFullName()
+    {
         return "{$this->firstName} {$this->lastName}";
     }
 
@@ -108,8 +114,9 @@ class User implements UserInterface
      * 
      * @return void
      */
-    public function creationSlug(){
-        if(empty($this->slug)){
+    public function creationSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->firstName . ' ' . $this->lastName);
         }
@@ -121,6 +128,7 @@ class User implements UserInterface
         $this->ads = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,27 +265,32 @@ class User implements UserInterface
 
     public function getRoles()
     {
-            $roles = $this->userRoles->map(function($role){
-                return $role->getTitle();
-            })->toArray();
+        $roles = $this->userRoles->map(function ($role) {
+            return $role->getTitle();
+        })->toArray();
 
-            $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_USER';
 
-            return $roles;
+        return $roles;
     }
 
     public function getPassword()
     {
-             return $this->hash;
+        return $this->hash;
     }
 
-    public function getSalt() {}
+    public function getSalt()
+    {
+    }
 
-    public function getUsername(){
+    public function getUsername()
+    {
         return $this->email;
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * @return Collection|Role[]
@@ -338,4 +351,34 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
 }

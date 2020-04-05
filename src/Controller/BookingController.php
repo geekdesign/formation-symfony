@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Form\BookingType;
+use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,14 +23,14 @@ class BookingController extends AbstractController
     {
         $booking = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
-        
+
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
 
             $booking->setBooker($user)
-                    ->setAd($ad);
+                ->setAd($ad);
 
             //Si les dates ne sont pas dispo = message d'erreur
             if (!$booking->isBookableDates()) {
@@ -37,13 +39,12 @@ class BookingController extends AbstractController
                     "Les dates qui vous avez choisi ne peuvent pas être réservées : elles sont déjà prises."
                 );
             } else {
-                
+
                 $manager->persist($booking);
                 $manager->flush();
-    
+
                 return $this->redirectToRoute('booking_show', ['id' => $booking->getId(), 'withAlert' => true]);
             }
-
         }
 
         return $this->render('booking/book.html.twig', [
@@ -56,12 +57,37 @@ class BookingController extends AbstractController
      * Permet d'afficher la page d'une réservation
      * @Route("/booking/{id}", name="booking_show")
      * @IsGranted("ROLE_USER")
+     * 
+     * @param Booking $booking
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
      */
-    public function show(Booking $booking)
+    public function show(Booking $booking, Request $request, EntityManagerInterface $manager)
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+
+            $comment->setAuthor($this->getUser())
+                ->setAd($booking->getAd());
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Merci! Votre avis a bien été enregistré."
+            );
+        };
+
         return $this->render('booking/show.html.twig', [
-            'booking' => $booking,
+            'booking'   => $booking,
+            'form'      => $form->createView()
         ]);
-    
     }
 }

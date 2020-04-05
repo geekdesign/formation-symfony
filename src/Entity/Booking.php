@@ -32,7 +32,7 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today", message="La date d'arrivée ne peut pas être avant ce jour !")
+     * @Assert\GreaterThan("today", message="La date d'arrivée ne peut pas être avant ce jour !", groups={"front"})
      */
     private $startDate;
 
@@ -60,16 +60,17 @@ class Booking
     /**
      * Callback appelé à chaqu fois qu'on créer une réservatoion
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      * 
      * @return void
      */
     public function prePersist()
     {
-        if(empty($this->createdAt)){
+        if (empty($this->createdAt)) {
             $this->createdAt = new \DateTime();
         }
 
-        if(empty($this->amount)){
+        if (empty($this->amount)) {
             //prix de l'annonce par le nombre de jours
             $this->amount = $this->ad->getPrice() * $this->getDuration();
         }
@@ -88,7 +89,7 @@ class Booking
         $bookingDays = $this->getDays();
 
         //Function qui format les dates 
-        $formatDay = function($day){
+        $formatDay = function ($day) {
             return $day->format('Y-m-d');
         };
 
@@ -117,9 +118,9 @@ class Booking
             24 * 60 * 60
         );
 
-        $days = array_map(function($dayTimestamp) {
+        $days = array_map(function ($dayTimestamp) {
             return new \DateTime(date('Y-m-d', $dayTimestamp));
-        },$resultat);
+        }, $resultat);
 
         return $days;
     }

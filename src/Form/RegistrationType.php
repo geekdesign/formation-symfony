@@ -48,8 +48,12 @@ class RegistrationType extends ApplicationType
             )
             ->add('description', 
                 TextareaType::class, 
-                $this->getConfiguration("Description", "Présentez-vous...")
-            )
+                $this->getConfiguration("Description", "Présentez-vous...", [
+                    'attr' => [
+                        'rows' => 8
+                        ]
+                    ])
+                )
         ;
     }
 
