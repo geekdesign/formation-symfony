@@ -16,7 +16,7 @@
                 <th>Actions</th>
             </tr>
             <tbody>
-                {% for ad in ads %}
+                {% for ad in pagination.data %}
                 <tr>
                     <td>{{ad.id}}</td>
                     <td>{{ad.title}}</a></td>
@@ -38,5 +38,8 @@
             </tbody>
         </thead>
     </table>
+
+    {{ pagination.display }}
+
 </div>
 {% endblock %}
