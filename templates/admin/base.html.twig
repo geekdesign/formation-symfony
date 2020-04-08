@@ -4,22 +4,18 @@
         <meta charset="UTF-8">
         <title>ScpieBNB - Admin - {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, user-scalable=no">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/app.css">
-        <link href="/css/fontawesome.css" rel="stylesheet">
-        <link href="/css/brands.css" rel="stylesheet">
-        <link href="/css/solid.css" rel="stylesheet">
-        <link href="/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
         {% block stylesheets %}{% endblock %}
     </head>
     <body class="min-vh-100">
       {% include 'admin/partials/header.html.twig' %}
         {% block body %}{% endblock %}
       {% include 'admin/partials/footer.html.twig' %}
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/popper.min.js"></script>
-        <script src="/js/bootstrap/bootstrap.min.js"></script>
-        <script src="https://kit.fontawesome.com/05b0e1a959.js" crossorigin="anonymous"></script>
-        {% block javascripts %}{% endblock %}
+      <script src="{{ asset('build/js/app.js') }}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+      {% block javascripts %}
+        {{ encore_entry_script_tags('js/app') }}
+      {% endblock %}
     </body>
 </html>

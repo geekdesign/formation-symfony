@@ -8,100 +8,36 @@
         <h1 class="display-3">Bienvenue sur ScpieBNB!</h1>
         <p class="lead">Nous mettons en relations les voyageur et des proprios qui veulent gagner de l'argent en proposant leurs bien à la location!</p>
         <hr class="my-4">
-        <p>Vous êtes voageur? et vous voulez voir ou vous pourrez loger?</p>
+        <p>Vous êtes voyageur? et vous voulez voir ou vous pourrez loger?</p>
         <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Voir nos annonces !</a>
+        <a class="btn btn-primary btn-lg" href="{{ path('ads_index') }}" role="button">Voir nos annonces !</a>
         </p>
   </div>
   <h2 class="h1 my-5">Nos appartement stars</h2>
   <div class="row">
-      <div class="col-md-4">
-          <div class="card bg-light">
-              <div class="card-header text-center">
-                  3 Chambres, <strong>49 CHF / nuit</strong><br>
-                  <small>Pas encore noté</small>
-              </div>
-              <img src="http://lorempixel.com/1000/400" alt="Image de l'appartement" style="height: 200px; width:100%; display:block;">
-              <div class="card-body">
-                  <h4 class="card-title">
-                      Appartement de ouf
-                  </h4>
-                  <p class="card-texte">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem placeat quas facilis dolores tenetur earum laudantium.
-                  </p>
-                  <a href="#" class="btn btn-secondary">En savoir plus</a>
-              </div>
-          </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card bg-light">
-            <div class="card-header text-center">
-                3 Chambres, <strong>49 CHF / nuit</strong><br>
-                <small>Pas encore noté</small>
-            </div>
-            <img src="http://lorempixel.com/1000/400" alt="Image de l'appartement" style="height: 200px; width:100%; display:block;">
-            <div class="card-body">
-                <h4 class="card-title">
-                    Appartement de ouf
-                </h4>
-                <p class="card-texte">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem placeat quas facilis dolores tenetur earum laudantium.
-                </p>
-                <a href="#" class="btn btn-secondary">En savoir plus</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-light">
-            <div class="card-header text-center">
-                3 Chambres, <strong>49 CHF / nuit</strong><br>
-                <small>Pas encore noté</small>
-            </div>
-            <img src="http://lorempixel.com/1000/400" alt="Image de l'appartement" style="height: 200px; width:100%; display:block;">
-            <div class="card-body">
-                <h4 class="card-title">
-                    Appartement de ouf
-                </h4>
-                <p class="card-texte">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem placeat quas facilis dolores tenetur earum laudantium.
-                </p>
-                <a href="#" class="btn btn-secondary">En savoir plus</a>
-            </div>
-        </div>
-    </div>
+      {% for data in ads %}
+        {% include 'ad/_ad.html.twig' with {'ad': data.annonce} %}
+      {% endfor %}
   </div>
   <h2 class="h1 my-5">Nos propriétaires stars</h2>
   <div class="row">
-      <div class="col">
-        <div class="card border-secondary mb-3">
-            <div class="card-body">
-                <h4 class="card-title">
-                    P-A
-                </h4>
-                <hr>
-                <div class="card-text">
-                    <img src="http://lorempixel.com/64/64/people" alt="Avatar de P-A" class="float-left mr-3">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <a href="#" class="btn btn-success float-right">En savoir plus</a>
+      {% for data in users %}
+        <div class="col">
+            <div class="card border-secondary mb-3">
+                <div class="card-body">
+                        <h4 class="card-title">
+                            {{data.user.fullName}}
+                        </h4>
+                    <hr>
+                    <div class="card-text clearfix">
+                        <img src="{{data.user.picture}}" class="avatar-medium" alt="Avatar de {{data.user.fullName}}" class="float-left mr-3">
+                        {{data.user.introduction}}
+                        <a href="{{ path('user_show',{'slug': data.user.slug}) }}" class="btn btn-success float-right">En savoir plus</a>
+                    </div>
                 </div>
             </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="card border-secondary mb-3">
-            <div class="card-body">
-                <h4 class="card-title">
-                    P-A
-                </h4>
-                <hr>
-                <div class="card-text">
-                    <img src="http://lorempixel.com/64/64/people" alt="Avatar de P-A" class="float-left mr-3">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <a href="#" class="btn btn-success float-right">En savoir plus</a>
-                </div>
-            </div>
-        </div>
-      </div>
+      {% endfor %}
   </div>
 </div>
 {% endblock %}

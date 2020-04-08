@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion à l'admin</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link href="/css/fontawesome.css" rel="stylesheet">
-    <link href="/css/brands.css" rel="stylesheet">
-    <link href="/css/solid.css" rel="stylesheet">
-    <link href="/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <style>
         body{
             display: flex;
@@ -51,10 +48,10 @@
             </div>
         </div>
     </div>
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/05b0e1a959.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('build/js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    {% block javascripts %}
+      {{ encore_entry_script_tags('js/app') }}
+    {% endblock %}
 </body>
 </html>

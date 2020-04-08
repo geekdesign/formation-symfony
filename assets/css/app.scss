@@ -1,3 +1,6 @@
+/* assets/css/app.css */
+@import url('./bootstrap.min.css');
+
 a:hover, .btn-link:hover {
     text-decoration: none;
 }
@@ -6,20 +9,25 @@ div.container{
     margin-top: 20px;
 }
 
-div.ad-title {
+div.da-title {
     padding: 3em;
     background-size: cover;
     background-position: center center;
+
+    .btn {
+        margin-top: 2em;
+        font-style: 1.5em;
+        line-height: 1.5em;
+    }
+
+    h1, p, .carousel-caption {
+        color: rgb(255, 255, 255);
+        text-shadow:  3px 3px 3px rgba(0, 0, 0, 0.5);
+    }
+
 }
 
-div.ad-title .btn {
-    margin-top: 2em;
-    font-style: 1.5em;
-    line-height: 1.5em;
-}
-
-
-div.ad-title h1, div.ad-title p, .carousel-caption {
+.carousel-caption {
     color: white;
     text-shadow:  3px 3px 3px rgba(0, 0, 0, 0.5);
 }
@@ -51,6 +59,6 @@ div.ad-title h1, div.ad-title p, .carousel-caption {
     border-radius: 0%!important;
 }
 
-span.rating i {
+span.rating svg {
     color: goldenrod;
 }
