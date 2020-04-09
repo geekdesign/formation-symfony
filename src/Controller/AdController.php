@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\AdLike;
 use App\Form\AdType;
+use App\Repository\AdLikeRepository;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -152,6 +154,55 @@ class AdController extends AbstractController
         return $this->render('ad/show.html.twig', [
             'ad' => $ad
         ]);
+    }
+
+    /**
+     * Permet de liker ou unliker une annonce
+     * 
+     * @Route("/ads/{slug}/like", name="ad_like")
+     * 
+     * @param Ad $ad 
+     * @param EntityManagerInterface $manager 
+     * @param AdLikeRepository $likeRepo 
+     * @return Response 
+     */
+    public function like(Ad $ad, EntityManagerInterface $manager, AdLikeRepository $likeRepo) : Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) return $this->json([
+            'code' => 403,
+            'message' => "Unauthorized"
+        ], 403);
+
+        if ($ad->isLikedByUser($user)) {
+            $like = $likeRepo->findOneBy([
+                'ad' => $ad,
+                'user' => $user
+            ]);
+
+            $manager->remove($like);
+            $manager->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => "Like bien supprimé",
+                'likes' => $likeRepo->count(['ad' => $ad])
+            ], 200);
+        }
+        $like = new AdLike();
+        $like   ->setAd($ad)
+                ->setUser($user);
+
+        $manager->persist($like);
+        $manager->flush();
+
+        return $this->json([
+            'code' => 200, 
+            'message' => 'Like bien ajouté',
+            'likes' => $likeRepo->count(['ad' => $ad])
+        ], 200);
+
     }
 
 }
